@@ -10,7 +10,7 @@ def main():
         resultado = simular_dado(minimo, maximo)
         print("O dado mostra:", resultado)
 
-        escolha = input("Deseja lançar o dado novamente? (s/n)").lower()
+        escolha = input("Deseja lançar o dado novamente? (s/n) ").lower()
         if escolha !='s':
             continuar = False
 if __name__== "__main__":
