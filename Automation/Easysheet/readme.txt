@@ -14,6 +14,9 @@ The ultimate goal is to compile the application into an executable (exe) file fo
 How to Use:
 
 Run the program.
+Select the spreadsheet and folder where you will save the certificates.
+Click on "Gerar Certificados"
+Wait until the operation ends.
 The program automatically fetches data from the designated Excel spreadsheet.
 It then transfers this data onto the certificate image.
 The resulting certificate images are saved automatically.
