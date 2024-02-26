@@ -28,7 +28,7 @@ for indice, linha in enumerate(folha.iter_rows(min_row=2)):
     desenhar = ImageDraw.Draw(image)
     desenhar.text((1015, 827), nome_participante, fill='black', font=fonte_nome)
     desenhar.text((1060, 950), nome_curso, fill='black', font=fonte_geral)
-    desenhar.text((1425, 1070), nome_participante, fill='black', font=fonte_geral)
+    desenhar.text((1425, 1070), tipo_participacao, fill='black', font=fonte_geral)
     desenhar.text((1480, 1190), str(carga_horaria), fill='black', font=fonte_geral)
 
     desenhar.text((700, 1750), str(data_inicio), fill='black', font=fonte_geral)
