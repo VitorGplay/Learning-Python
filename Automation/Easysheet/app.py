@@ -26,7 +26,7 @@ def show_completion_message():
 
 
 # Função para processar o arquivo .xlsx e gerar os arquivos .png
-def process_files():
+def process_files(): 
     excel_filename = excel_entry.get()
     folder_path = folder_entry.get()
 
