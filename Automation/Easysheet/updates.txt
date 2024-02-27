@@ -1,0 +1,14 @@
+Added a GUI: I used the customtkinter library to create a graphical interface for the program. This makes user interaction more friendly and intuitive.
+
+Option to choose the destination folder: I implemented a functionality that allows the user to select the folder where the certificates will be saved. This is done using tkinter's filedialog.askdirectory().
+
+Option to choose the .xlsx file: I implemented a functionality that allows the user to select the .xlsx file that contains the data to generate the certificates. This is done using tkinter's filedialog.askopenfilename().
+
+Processing .xlsx files and generating certificates: I developed logic to process the selected .xlsx file and generate certificates based on the data contained in the file. I used the openpyxl library to manipulate the .xlsx file and the PIL library to work with the images.
+Based on the project by "Dev Aprender | Jhonatan de Souza."
+
+Progress bar: I added a progress bar to indicate the progress of certificate processing. This gives the user a clear idea of how much time is left until the process is complete.
+
+Completion and error messages: I implemented completion and error messages to inform the user when the certificate generation process was completed successfully or if an error occurred during the process.
+
+These are the main updates made so far. The program is now more interactive and efficient, providing a better user experience.
