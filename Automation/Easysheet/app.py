@@ -1,7 +1,8 @@
+# Importações
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinter import ttk  # Importar ttk para usar Progressbar
+from tkinter import ttk
 import openpyxl
 from PIL import Image, ImageDraw, ImageFont
 
@@ -9,15 +10,20 @@ from PIL import Image, ImageDraw, ImageFont
 def select_excel_file():
     filename = filedialog.askopenfilename(filetypes=[("Excel files", "*.xlsx")])
     if filename:
-        excel_entry.delete(0, "end")  # Limpa a entrada antes de definir o novo valor
-        excel_entry.insert(0, filename)  # Insere o novo valor na entrada
+        excel_entry.delete(0, "end")
+        excel_entry.insert(0, filename)
 
 # Função para selecionar o local e o nome do arquivo .png
 def select_folder():
     foldername = filedialog.askdirectory()
     if foldername:
-        folder_entry.delete(0, tk.END)  # Limpa a entrada antes de definir o novo valor
-        folder_entry.insert(0, foldername)  # Insere o novo valor na entrada
+        folder_entry.delete(0, tk.END)
+        folder_entry.insert(0, foldername)
+
+# Função para exibir a mensagem de conclusão
+def show_completion_message():
+    messagebox.showinfo("Concluído", "Todos os certificados foram gerados com sucesso!")
+
 
 # Função para processar o arquivo .xlsx e gerar os arquivos .png
 def process_files():
@@ -31,38 +37,62 @@ def process_files():
             total_rows = sheet.max_row - 1  # Excluindo a primeira linha de cabeçalho
             progress_bar["maximum"] = total_rows
 
-            for indice, linha in enumerate(sheet.iter_rows(min_row=2), start=1):
-                progress_bar["value"] = indice
-                progress_label.configure(text=f"Progresso: {indice}/{total_rows}")
-                progress_bar.update_idletasks()
+            # Inicializar variáveis de iteração
+            global indice
+            indice = 1
 
-                nome_curso = linha[0].value
-                nome_participante = linha[1].value
-                tipo_participacao = linha[2].value
-                carga_horaria = linha[5].value
-                data_inicio = linha[3].value
-                data_fim = linha[4].value
-                data_emissao = linha[6].value
+            # Agendar a execução da função de processamento em intervalos regulares
+            root.after(100, process_next_row, sheet, folder_path, total_rows)
 
-                fonte_nome = ImageFont.truetype('./fontes/tahomabd.ttf', 90)
-                fonte_geral = ImageFont.truetype('./fontes/tahoma.ttf', 80)
-                fonte_data = ImageFont.truetype('./fontes/tahoma.ttf', 55)
-
-                image = Image.open('./certificado_padrao.jpg')
-                draw = ImageDraw.Draw(image)
-                draw.text((1015, 827), nome_participante, fill='black', font=fonte_nome)
-                draw.text((1060, 950), nome_curso, fill='black', font=fonte_geral)
-                draw.text((1425, 1070), tipo_participacao, fill='black', font=fonte_geral)
-                draw.text((1480, 1190), str(carga_horaria), fill='black', font=fonte_geral)
-                draw.text((750, 1785), str(data_inicio), fill='black', font=fonte_data)
-                draw.text((750, 1930), str(data_fim), fill='black', font=fonte_data)
-                draw.text((2230, 1930), str(data_emissao), fill='black', font=fonte_data)
-
-                image.save(f'{folder_path}/{indice} {nome_participante} certificado.png')
-
-            messagebox.showinfo("Concluído", "Certificados gerados com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
+
+# Função para processar a próxima linha do arquivo .xlsx
+def process_next_row(sheet, folder_path, total_rows):
+    global indice
+
+    if indice <= total_rows:
+        try:
+            linha = next(sheet.iter_rows(min_row=indice+1))  # Avançar para a próxima linha
+            nome_curso = linha[0].value
+            nome_participante = linha[1].value
+            tipo_participacao = linha[2].value
+            carga_horaria = linha[5].value
+            data_inicio = linha[3].value
+            data_fim = linha[4].value
+            data_emissao = linha[6].value
+
+            fonte_nome = ImageFont.truetype('./fontes/tahomabd.ttf', 90)
+            fonte_geral = ImageFont.truetype('./fontes/tahoma.ttf', 80)
+            fonte_data = ImageFont.truetype('./fontes/tahoma.ttf', 55)
+
+            image = Image.open('./certificado_padrao.jpg')
+            draw = ImageDraw.Draw(image)
+            draw.text((1015, 827), nome_participante, fill='black', font=fonte_nome)
+            draw.text((1060, 950), nome_curso, fill='black', font=fonte_geral)
+            draw.text((1425, 1070), tipo_participacao, fill='black', font=fonte_geral)
+            draw.text((1480, 1190), str(carga_horaria), fill='black', font=fonte_geral)
+            draw.text((750, 1785), str(data_inicio), fill='black', font=fonte_data)
+            draw.text((750, 1930), str(data_fim), fill='black', font=fonte_data)
+            draw.text((2230, 1930), str(data_emissao), fill='black', font=fonte_data)
+
+            image.save(f'{folder_path}/{indice} {nome_participante} certificado.png')
+
+            # Atualizar a barra de progresso e rótulo
+            progress_bar["value"] = indice
+            progress_label.configure(text=f"Progresso: {indice}/{total_rows}")
+
+            # Agendar a próxima execução da função para a próxima linha
+            indice += 1
+            root.after(100, process_next_row, sheet, folder_path, total_rows)
+
+        except StopIteration:
+            # O fim do arquivo foi alcançado, exibir mensagem de conclusão
+            show_completion_message("Concluído", "Certificados gerados com sucesso!")
+    else:
+        # Todas as linhas foram processadas, não há mais nada a fazer
+        pass
+        show_completion_message()
 
 # Criar a janela principal
 root = ctk.CTk()
