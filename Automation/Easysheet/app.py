@@ -13,7 +13,7 @@ def select_excel_file():
         excel_entry.delete(0, "end")
         excel_entry.insert(0, filename)
 
-# Função para selecionar o local e o nome do arquivo .png
+# Função para selecionar o local e o nome do arquivo para salvar o certificado .png
 def select_folder():
     foldername = filedialog.askdirectory()
     if foldername:
@@ -26,7 +26,7 @@ def show_completion_message():
 
 
 # Função para processar o arquivo .xlsx e gerar os arquivos .png
-def process_files(): 
+def process_files():
     excel_filename = excel_entry.get()
     folder_path = folder_entry.get()
 
