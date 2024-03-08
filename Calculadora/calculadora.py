@@ -12,25 +12,42 @@ def subtracao():
     a = float(input("Digite um número: "))
     b = float(input("Digite outro número: "))
     c = a - b
-    print("O resultado da subtração é:", c)
+    if c.is_integer():
+        print("O resultado da subtração é:", int(c))
+    else:
+        print("O resultado da subtração é:", c)
 def multiplicacao():
     a = float(input("Digite um número: "))
     b = float(input("Digite outro número: "))
     c = a * b
-    print("O resultado da multiplicação é:", c)
+    if c.is_integer():
+        print("O resultado da multiplicação é:", int(c))
+    else:
+        print("O resultado da multiplicação é:", c)
 def divisao():
     a = float(input("Digite um número: "))
     b = float(input("Digite outro número: "))
     c = a / b
-    print("O resultado da divisão é:", c)
+    if c.is_integer():
+        print("O resultado da divisão é:", int(c))
+    else:
+        print("O resultado da divisão é:", c)
+
 def raizquadrada():
     a = float(input("Digite um número: "))
     b = a ** 0.5
-    print("O resultado é:","{:.2f}".format(b))
+    if b.is_integer():
+        print("O resultado é:", int(b))
+    else:
+        print("O resultado é:","{:.2f}".format(b))
 def potenciaquadrada():
     a = float(input("Digite um número: "))
     b = a ** 2
-    print(b)
+    if b.is_integer():
+        print("O resultado é:", int(b))
+    else:
+        print("O resultado é:","{:.2f}".format(b))
+
 #Função para escolher funções
 def escolherfuncao():
     print("Escolha a operação: ")
